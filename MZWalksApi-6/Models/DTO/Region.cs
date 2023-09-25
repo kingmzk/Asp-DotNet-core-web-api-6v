@@ -1,4 +1,4 @@
-﻿namespace MZWalksApi_6.Models.Domain
+﻿namespace MZWalksApi_6.Models.DTO
 {
     public class Region
     {
@@ -15,10 +15,5 @@
         public double Long { get; set; }
 
         public long Population { get; set; }
-
-        //Navigation Properties
-        //one region can have many walks
-
-        public IEnumerable<Walk> Walks { get; set; }
     }
 }

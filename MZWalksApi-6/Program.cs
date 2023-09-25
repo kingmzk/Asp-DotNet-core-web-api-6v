@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MZWalksApi_6.Data;
+using MZWalksApi_6.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<MZWalksDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MZWalks"));
 });
+
+builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
