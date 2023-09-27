@@ -65,5 +65,36 @@ namespace MZWalksApi_6.Repositories
 
             return existingRegion;
         }
+
+        public async Task<Region> UpdatesAsync(Guid id, Region region)
+        {
+            // Find the region by its ID in the database
+            var existingRegion = await mZWalksDbContext.Regions.FindAsync(id);
+
+            if (existingRegion == null)
+            {
+                return null; // Region not found
+            }
+
+            // Apply the changes from the provided 'region' object to the 'existingRegion'
+            existingRegion.Code = region.Code;
+            existingRegion.Area = region.Area;
+            existingRegion.Lat = region.Lat;
+            existingRegion.Long = region.Long;
+            existingRegion.Name = region.Name;
+            existingRegion.Population = region.Population;
+
+            try
+            {
+                // Save the changes to the database asynchronously
+                await mZWalksDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return null;
+            }
+
+            return existingRegion; // Return the updated region
+        }
     }
 }

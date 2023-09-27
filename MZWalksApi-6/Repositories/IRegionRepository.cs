@@ -13,5 +13,7 @@ namespace MZWalksApi_6.Repositories
         Task<Region> DeleteAsync(Guid Id);
 
         Task<Region> UpdateAsync(Guid id, Region region);
+
+        Task<Region> UpdatesAsync(Guid id, Region region);
     }
 }

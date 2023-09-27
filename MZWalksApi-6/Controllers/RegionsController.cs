@@ -166,5 +166,47 @@ namespace MZWalksApi_6.Controllers
 
             return Ok(regionDto);
         }
+
+        [HttpPatch]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> PartialUpdateRegionAsync(Guid id, [FromBody] PatchRegionRequest patchRegionRequest)
+        {
+            if (patchRegionRequest == null)
+            {
+                return BadRequest();
+            }
+
+            var region = new Models.Domain.Region()
+            {
+                Code = patchRegionRequest.Code,
+                Area = patchRegionRequest.Area,
+                Lat = patchRegionRequest.Lat,
+                Long = patchRegionRequest.Long,
+                Name = patchRegionRequest.Name,
+                Population = patchRegionRequest.Population
+            };
+
+            // Update the region using the repository
+            var updatedRegion = await regionRepository.UpdatesAsync(id, region);
+
+            if (updatedRegion == null)
+            {
+                return NotFound();
+            }
+
+            // Convert the updated region back to a DTO
+            var updatedRegionDto = new Models.DTO.Region
+            {
+                Id = updatedRegion.Id,
+                Code = updatedRegion.Code,
+                Area = updatedRegion.Area,
+                Lat = updatedRegion.Lat,
+                Long = updatedRegion.Long,
+                Name = updatedRegion.Name,
+                Population = updatedRegion.Population
+            };
+
+            return Ok(updatedRegionDto);
+        }
     }
 }
