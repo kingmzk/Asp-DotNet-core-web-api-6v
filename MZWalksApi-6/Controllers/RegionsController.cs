@@ -65,6 +65,13 @@ namespace MZWalksApi_6.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
+
+            //validate the incoming request
+            if (!ValidateRegionAsync(addRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
             //request to Domain Model
             var region = new Models.Domain.Region()
             {
@@ -128,6 +135,12 @@ namespace MZWalksApi_6.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
+            //Check validations
+            if (!ValidateUpdateRegionAsync(updateRegionRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
             //convert DTO to domain model
             var region = new Models.Domain.Region()
             {
@@ -208,5 +221,104 @@ namespace MZWalksApi_6.Controllers
 
             return Ok(updatedRegionDto);
         }
+
+        //REGION private method
+
+        private bool ValidateRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
+        {
+            if (addRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest), "Adding Region Request cannot be Empty or whiteSpaces");
+                return false;
+            }
+
+
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Code), "Code cannot be null or whiteSpaces");
+            }
+
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Name), "Name cannot be null or whiteSpaces");
+            }
+
+            if (addRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Area), "Areaa cannot be less then or equal");
+            }
+
+            //if (addRegionRequest.Lat <= 0)
+            //{
+            //    ModelState.AddModelError(nameof(addRegionRequest.Lat), "Lat cannot be less then or equal");
+            //}
+
+            //if (addRegionRequest.Long <= 0)
+            //{
+            //    ModelState.AddModelError(nameof(addRegionRequest.Long), "Long cannot be less then or equal");
+            //}
+
+            if (addRegionRequest.Population <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Population), "Population cannot be less then or equal");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        private bool ValidateUpdateRegionAsync(UpdateRegionRequest updateRegionRequest)
+        {
+            if (updateRegionRequest == null)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest), "Adding Region Request cannot be Empty or whiteSpaces");
+                return false;
+            }
+
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Code), "Code cannot be null or whiteSpaces");
+            }
+
+            if (string.IsNullOrWhiteSpace(updateRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Name), "Name cannot be null or whiteSpaces");
+            }
+
+            if (updateRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Area), "Areaa cannot be less then or equal");
+            }
+
+            //if (updateregionrequest.lat <= 0)
+            //{
+            //    modelstate.addmodelerror(nameof(updateregionrequest.lat), "lat cannot be less then or equal");
+            //}
+
+            //if (updateregionrequest.long <= 0)
+            //{
+            //    modelstate.addmodelerror(nameof(updateregionrequest.long), "long cannot be less then or equal");
+            //}
+
+            if (updateRegionRequest.Population <= 0)
+            {
+                ModelState.AddModelError(nameof(updateRegionRequest.Population), "Population cannot be less then or equal");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
     }
 }
