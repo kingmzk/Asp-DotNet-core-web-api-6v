@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MZWalksApi_6.Models.DTO;
 using MZWalksApi_6.Repositories;
@@ -7,6 +8,7 @@ namespace MZWalksApi_6.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+   
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -19,6 +21,7 @@ namespace MZWalksApi_6.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepository.GetAllAsync();
@@ -63,14 +66,15 @@ namespace MZWalksApi_6.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
 
             //validate the incoming request
-            if (!ValidateRegionAsync(addRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateRegionAsync(addRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             //request to Domain Model
             var region = new Models.Domain.Region()
@@ -103,6 +107,7 @@ namespace MZWalksApi_6.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //get region from database
@@ -133,6 +138,7 @@ namespace MZWalksApi_6.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
             //Check validations
