@@ -8,7 +8,7 @@ namespace MZWalksApi_6.Repositories
         {
             new User()
             {
-                FirstName="Read Only", LastName="User", EmailAdress="readonly@user.com", Id=Guid.NewGuid(), Username="readonly@user.com", Password="readonly@user"
+                FirstName="Read Only", LastName="User", EmailAdress="readonly@user.com", Id=Guid.NewGuid(), Username="readonly@user.com", Password="readonly@user0"
                 , Roles = new List<string> { "reader" }
             },
             new User()

@@ -21,7 +21,7 @@ namespace MZWalksApi_6.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepository.GetAllAsync();
@@ -49,9 +49,11 @@ namespace MZWalksApi_6.Controllers
             return Ok(regionsDTO);
         }
 
+       
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepository.GetAsync(id);
@@ -67,6 +69,7 @@ namespace MZWalksApi_6.Controllers
 
         [HttpPost]
         [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
 
@@ -107,7 +110,7 @@ namespace MZWalksApi_6.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //get region from database
@@ -138,7 +141,7 @@ namespace MZWalksApi_6.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        [Authorize]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
             //Check validations
