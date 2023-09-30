@@ -1,4 +1,6 @@
-﻿namespace MZWalksApi_6.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MZWalksApi_6.Models.Domain
 {
     public class User
     {
@@ -10,10 +12,17 @@
 
         public string Password { get; set; }
 
-        public List<string> Roles { get; set; }
+   //     public List<string> Roles { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        [NotMapped]
+        public List<string> Roles { get; set; }
+
+        //Navigation Properties
+
+        public List<User_Role> UserRoles { get; set; }
     }
 }

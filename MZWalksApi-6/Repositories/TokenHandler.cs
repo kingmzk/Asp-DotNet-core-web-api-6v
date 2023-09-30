@@ -16,7 +16,7 @@ namespace MZWalksApi_6.Repositories
 
         public Task<string> CreateTokenAsync(User user)
         {
-       
+
             //create Claims
 
             var claims = new List<Claim>();
@@ -28,7 +28,7 @@ namespace MZWalksApi_6.Repositories
             //loop into list of users
             user.Roles.ForEach((role) =>
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+               claims.Add(new Claim(ClaimTypes.Role, role));
             });
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
